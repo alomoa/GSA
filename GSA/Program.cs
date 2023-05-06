@@ -6,7 +6,11 @@
         {
             PnLReader pnLReader = new();
 
-            List<StrategyPnl> strategyPnls = pnLReader.Read("pnl.csv");            
+            List<StrategyPnl> strategyPnls = pnLReader.Execute("pnl.csv");
+            foreach (var strategy in strategyPnls)
+            {
+                Console.WriteLine(strategy.Strategy);
+            }
         }
     }
 }
