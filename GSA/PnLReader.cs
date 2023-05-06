@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using System.Runtime.CompilerServices;
 
 namespace gsa
 {
@@ -8,45 +8,49 @@ namespace gsa
         {
         }
 
-        public List<StrategyPnl> Read(string path)
+        public List<StrategyPnl> Execute(string path)
+        {
+            var lines = File.ReadAllLines(path);
+            var strategyPnl = Read(lines);
+
+            return strategyPnl;
+        }
+        public List<StrategyPnl> Read(string[] lines)
         {
             List<StrategyPnl> strategyPnls = new List<StrategyPnl>();
-            using (TextFieldParser parser = new TextFieldParser(path))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");
+            var headers = lines[0].Split(",").Skip(1).ToArray();
+            var body = lines
+                .Skip(1)
+                .Select(row => row.Split(","))
+                .ToArray();
+            SetupStrategyPnL(headers, strategyPnls);
+            AddFields(body, strategyPnls);
 
-                string[] headers = parser.ReadFields();
-                headers = headers.Skip(1).ToArray();
-
-                SetupStrategyPnL(headers, strategyPnls);
-                AddFields(parser, strategyPnls);
-            }
             return strategyPnls;
         }
 
-        private void AddFields(TextFieldParser parser, List<StrategyPnl> strategyPnls)
+        public void AddFields(string[][] body, List<StrategyPnl> strategyPnls)
         {
-            while (!parser.EndOfData)
+            for(int i = 0; i < body.Length; i++)
             {
-                string[] fields = parser.ReadFields();
+                string[] row = body[i];
 
-                var date = fields[0];
-                fields = fields.Skip(1).ToArray();
+                var date = row[0];
+                row = row.Skip(1).ToArray();
 
-                for (var i = 0; i < fields.Length; i++)
+                for (var j = 0; j < row.Length; j++)
                 {
                     var pnl = new Pnl
                     {
-                        Amount = decimal.Parse(fields[i]),
+                        Amount = decimal.Parse(row[j]),
                         Date = DateTime.Parse(date)
                     };
-                    strategyPnls[i].Pnls.Add(pnl);
+                    strategyPnls[j].Pnls.Add(pnl);
                 }
             }
         }
 
-        private void SetupStrategyPnL(string[] headers, List<StrategyPnl> strategyPnls)
+        public void SetupStrategyPnL(string[] headers, List<StrategyPnl> strategyPnls)
         {
             for (var i = 0; i < headers.Length; i++)
             {
