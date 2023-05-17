@@ -1,6 +1,4 @@
-﻿using GSA.Data.Scaffolded;
-
-namespace GSA
+﻿namespace GSA
 {
     public class program
     {
@@ -9,7 +7,7 @@ namespace GSA
             var strategyReader = new utils.StrategyReader();
 
             var strategies = strategyReader._strategies;
-            var p = 0;
+  
         }
     }
 }
