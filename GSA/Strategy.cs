@@ -2,7 +2,7 @@
 {
     public class Strategy
     {
-
+        
         public Strategy()
         {
             Capital = new HashSet<Capital>();

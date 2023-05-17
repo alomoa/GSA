@@ -7,8 +7,11 @@ namespace GSA
         public static void Main(string[] args)
         {
             PnLReader pnLReader = new();
+            PropertiesReader propertiesReader = new PropertiesReader();
 
             List<Strategy> strategyPnls = pnLReader.Execute("pnl.csv");
+            propertiesReader.ConvertProperties(strategyPnls);
+
             foreach (var strategy in strategyPnls)
             {
                 Console.WriteLine(strategy.StratName);
