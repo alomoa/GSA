@@ -1,4 +1,4 @@
-﻿namespace gsa
+﻿namespace GSA
 {
     public class Strategy
     {
@@ -13,7 +13,7 @@
         public int StrategyId { get; set; }
         public string Region { get; set; }
 
-        public ICollection<Pnl> Pnls { get; set; }
+        public ICollection<Pnl> Pnl { get; set; }
         public ICollection<Capital> Capital { get; set; }
     }
 }
