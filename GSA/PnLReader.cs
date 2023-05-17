@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace GSA
+﻿namespace GSA
 {
     public class PnLReader
     {
