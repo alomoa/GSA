@@ -1,14 +1,17 @@
 ﻿using GSA.Data.Scaffolded;
 
-namespace gsa
+namespace GSA
 {
     public class program
     {
         public static void Main(string[] args)
         {
             PnLReader pnLReader = new();
+            PropertiesReader propertiesReader = new PropertiesReader();
 
             List<Strategy> strategyPnls = pnLReader.Execute("pnl.csv");
+            propertiesReader.ConvertProperties(strategyPnls);
+
             foreach (var strategy in strategyPnls)
             {
                 Console.WriteLine(strategy.StratName);
@@ -33,7 +36,7 @@ namespace gsa
                     db.SaveChanges();
 
                     var dBPnls = new List<GSA.Data.Entity.Pnl>();
-                    foreach (var pnl in strategy.Pnls)
+                    foreach (var pnl in strategy.Pnl)
                     {
                         var dBPnl = new GSA.Data.Entity.Pnl()
                         {
