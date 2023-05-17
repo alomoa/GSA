@@ -1,6 +1,6 @@
 ﻿using GSA.Data.Scaffolded;
 
-namespace gsa
+namespace GSA
 {
     public class program
     {
@@ -33,7 +33,7 @@ namespace gsa
                     db.SaveChanges();
 
                     var dBPnls = new List<GSA.Data.Entity.Pnl>();
-                    foreach (var pnl in strategy.Pnls)
+                    foreach (var pnl in strategy.Pnl)
                     {
                         var dBPnl = new GSA.Data.Entity.Pnl()
                         {

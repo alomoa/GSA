@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace gsa
+namespace GSA
 {
     public class PnLReader
     {
@@ -45,7 +45,7 @@ namespace gsa
                         Amount = decimal.Parse(row[j]),
                         Date = DateTime.Parse(date)
                     };
-                    strategyPnls[j].Pnls.Add(pnl);
+                    strategyPnls[j].Pnl.Add(pnl);
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace gsa
                 var strategyPnl = new Strategy
                 {
                     StratName = headers[i],
-                    Pnls = new List<Pnl>()
+                    Pnl = new List<Pnl>()
                 };
                 strategyPnls.Add(strategyPnl);
             }
