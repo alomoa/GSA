@@ -23,7 +23,7 @@ namespace Tests
             string[] lines = { headers, row1, row2 };
 
             //Act
-            List<StrategyPnl> strategyPnls = pnLReader.Read(lines);
+            List<Strategy> strategyPnls = pnLReader.Read(lines);
 
             //Assert
             Assert.That(strategyPnls.Count, Is.EqualTo(4));
@@ -34,7 +34,7 @@ namespace Tests
 
             //Arrange
             string[] headers = {"Strategy1", "Strategy2", "Strategy3", "Strategy4"};
-            var strategies = new List<StrategyPnl>();
+            var strategies = new List<Strategy>();
             
             //Act
             pnLReader.SetupStrategyPnL(headers, strategies);
@@ -55,7 +55,7 @@ namespace Tests
                  row1,
                  row2
             };
-            var strategies = new List<StrategyPnl>();
+            var strategies = new List<Strategy>();
             pnLReader.SetupStrategyPnL(headers, strategies);
 
             //Act

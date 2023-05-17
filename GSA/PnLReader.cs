@@ -8,16 +8,16 @@ namespace gsa
         {
         }
 
-        public List<StrategyPnl> Execute(string path)
+        public List<Strategy> Execute(string path)
         {
             var lines = File.ReadAllLines(path);
             var strategyPnl = Read(lines);
 
             return strategyPnl;
         }
-        public List<StrategyPnl> Read(string[] lines)
+        public List<Strategy> Read(string[] lines)
         {
-            List<StrategyPnl> strategyPnls = new List<StrategyPnl>();
+            List<Strategy> strategyPnls = new List<Strategy>();
             var headers = lines[0].Split(",").Skip(1).ToArray();
             var body = lines
                 .Skip(1)
@@ -29,7 +29,7 @@ namespace gsa
             return strategyPnls;
         }
 
-        public void AddFields(string[][] body, List<StrategyPnl> strategyPnls)
+        public void AddFields(string[][] body, List<Strategy> strategyPnls)
         {
             for(int i = 0; i < body.Length; i++)
             {
@@ -50,13 +50,13 @@ namespace gsa
             }
         }
 
-        public void SetupStrategyPnL(string[] headers, List<StrategyPnl> strategyPnls)
+        public void SetupStrategyPnL(string[] headers, List<Strategy> strategyPnls)
         {
             for (var i = 0; i < headers.Length; i++)
             {
-                var strategyPnl = new StrategyPnl
+                var strategyPnl = new Strategy
                 {
-                    Strategy = headers[i],
+                    StratName = headers[i],
                     Pnls = new List<Pnl>()
                 };
                 strategyPnls.Add(strategyPnl);

@@ -8,10 +8,10 @@ namespace gsa
         {
             PnLReader pnLReader = new();
 
-            List<StrategyPnl> strategyPnls = pnLReader.Execute("pnl.csv");
+            List<Strategy> strategyPnls = pnLReader.Execute("pnl.csv");
             foreach (var strategy in strategyPnls)
             {
-                Console.WriteLine(strategy.Strategy);
+                Console.WriteLine(strategy.StratName);
             }
 
             using (var db = new PnlContext())
@@ -27,7 +27,7 @@ namespace gsa
                 using (var db = new PnlContext())
                 {
                     var dBStrategyPnl = new GSA.Data.Entity.StrategyPnl() { 
-                        Strategy = strategy.Strategy,
+                        Strategy = strategy.StratName,
                     };
                     db.StrategyPnls.Add(dBStrategyPnl);
                     db.SaveChanges();
