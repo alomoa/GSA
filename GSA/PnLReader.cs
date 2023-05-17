@@ -6,9 +6,9 @@
         {
         }
 
-        public List<Strategy> Execute(string path)
+        public List<Strategy> ReadAndPopuplate()
         {
-            var lines = File.ReadAllLines(path);
+            var lines = File.ReadAllLines("pnl.csv");
             var strategyPnl = Read(lines);
 
             return strategyPnl;
