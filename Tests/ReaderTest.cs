@@ -77,9 +77,23 @@ namespace Tests
             propertiesReader.ConvertProperties(testStrategies);
 
             // Assert
-            Assert.AreEqual("AP", testStrategies[0].Region);
-            Assert.AreEqual("EU", testStrategies[1].Region);
-            Assert.AreEqual("EU", testStrategies[2].Region);
+            Assert.That(testStrategies[0].Region, Is.EqualTo("AP"));
+            Assert.That(testStrategies[1].Region, Is.EqualTo("EU"));
+            Assert.That(testStrategies[2].Region, Is.EqualTo("EU"));
         }
+
+        //[Test]
+        //public void CapitalReader_ReturnsListOfCapital()
+        //{
+
+        //    // Arrange & Act
+        //    var testStrategies = pnLReader.ReadAndPopuplate();
+        //    capitalReader.ReadAndPopulate(testStrategies);
+
+        //    // Assert
+        //    Assert.That(testStrategies[0].Region, Is.EqualTo("AP"));
+        //    Assert.That(testStrategies[1].Region, Is.EqualTo("EU"));
+        //    Assert.That(testStrategies[2].Region, Is.EqualTo("EU"));
+        //}
     }
 }

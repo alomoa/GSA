@@ -7,18 +7,30 @@ namespace GSA.utils
 
         public void ConvertProperties(List<Strategy> strategies)
         {
-            var lines = File.ReadAllLines("files/properties.csv").Select(x => x.Split(",")).ToArray();
-            var body = lines.Skip(1).ToArray();
+            var lines = Read("files/properties.csv");
+            UpdateStratName(strategies, lines);
+        }
 
+        private string[][] Read(string filePath)
+        {
+            return File.ReadAllLines(filePath)
+                .Select(x => x.Split(","))
+                .Skip(1)
+                .ToArray();
+        }
 
-            for (int i = 0; i < body.Count(); i++)
+        private void UpdateStratName(List<Strategy> strategies, string[][] lines)
+        {
+            for (int i = 0; i < lines.Length; i++)
             {
-                var line = body[i];
+                var line = lines[i];
                 var strategy = strategies.Find(x => x.StratName == line[0]);
-
-                strategy.Region = line[1];
-
+                if (strategy != null)
+                {
+                    strategy.Region = line[1];
+                }
             }
         }
+
     }
 }
