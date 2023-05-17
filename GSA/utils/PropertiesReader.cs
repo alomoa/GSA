@@ -1,15 +1,17 @@
-﻿namespace GSA
+﻿using GSA.models;
+
+namespace GSA.utils
 {
     public class PropertiesReader
     {
 
         public void ConvertProperties(List<Strategy> strategies)
         {
-            var lines = File.ReadAllLines("properties.csv").Select(x => x.Split(",")).ToArray();
+            var lines = File.ReadAllLines("files/properties.csv").Select(x => x.Split(",")).ToArray();
             var body = lines.Skip(1).ToArray();
-            
 
-            for (int i = 0 ; i < body.Count(); i++ )
+
+            for (int i = 0; i < body.Count(); i++)
             {
                 var line = body[i];
                 var strategy = strategies.Find(x => x.StratName == line[0]);

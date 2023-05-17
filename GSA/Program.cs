@@ -6,10 +6,10 @@ namespace GSA
     {
         public static void Main(string[] args)
         {
-            var strategyReader = new StrategyReader();
+            var strategyReader = new utils.StrategyReader();
 
-            var strategies = strategyReader._strategies;            
-
+            var strategies = strategyReader._strategies;
+            var p = 0;
         }
     }
 }

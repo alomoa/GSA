@@ -1,8 +1,8 @@
-﻿namespace GSA
+﻿namespace GSA.models
 {
     public class Strategy
     {
-        
+
         public Strategy()
         {
             Capital = new HashSet<Capital>();

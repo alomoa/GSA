@@ -21,13 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="capital.csv">
+    <None Update="files\capital.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="pnl.csv">
+    <None Update="files\pnl.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="properties.csv">
+    <None Update="files\properties.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
