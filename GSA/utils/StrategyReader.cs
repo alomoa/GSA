@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GSA.models;
 
-namespace GSA
+namespace GSA.utils
 {
     public class StrategyReader
     {
         public List<Strategy> _strategies;
 
-        public StrategyReader() { 
+        public StrategyReader()
+        {
             var pnlReader = new PnLReader();
             var capitalReader = new CapitalReader();
             var propertiesReader = new PropertiesReader();

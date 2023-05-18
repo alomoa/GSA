@@ -1,4 +1,4 @@
-﻿namespace GSA
+﻿namespace GSA.models
 {
     public class Pnl
     {

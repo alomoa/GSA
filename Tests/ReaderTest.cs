@@ -1,4 +1,5 @@
-using gsa;
+using GSA.models;
+using GSA.utils;
 using NuGet.Frameworks;
 
 namespace Tests
@@ -7,6 +8,8 @@ namespace Tests
     {
 
         PnLReader pnLReader = new PnLReader();
+        PropertiesReader propertiesReader = new PropertiesReader();
+        CapitalReader capitalReader = new CapitalReader();
 
         [SetUp]
         public void Setup()
@@ -62,7 +65,23 @@ namespace Tests
             pnLReader.AddFields(fields, strategies);
 
             //Assert
-            Assert.That(strategies[0].Pnls.Count, Is.EqualTo(2));
+            Assert.That(strategies[0].Pnl.Count, Is.EqualTo(2));
         }
+
+        [Test]
+        public void ConvertProperties_UpdatesStrategyRegion()
+        {
+
+            // Arrange & Act
+            var testStrategies = pnLReader.ReadAndPopuplate();
+            propertiesReader.ConvertProperties(testStrategies);
+
+            // Assert
+            Assert.That(testStrategies[0].Region, Is.EqualTo("AP"));
+            Assert.That(testStrategies[1].Region, Is.EqualTo("EU"));
+            Assert.That(testStrategies[2].Region, Is.EqualTo("EU"));
+        }
+
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace GSA
+﻿using GSA.models;
+
+namespace GSA.utils
 {
     public class PnLReader
     {
@@ -8,7 +10,7 @@
 
         public List<Strategy> ReadAndPopuplate()
         {
-            var lines = File.ReadAllLines("pnl.csv");
+            var lines = File.ReadAllLines("files/pnl.csv");
             var strategyPnl = Read(lines);
 
             return strategyPnl;
@@ -29,7 +31,7 @@
 
         public void AddFields(string[][] body, List<Strategy> strategyPnls)
         {
-            for(int i = 0; i < body.Length; i++)
+            for (int i = 0; i < body.Length; i++)
             {
                 string[] row = body[i];
 

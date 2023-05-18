@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GSA.models;
 
-namespace GSA
+namespace GSA.utils
 {
     public class CapitalReader
     {
         public List<Strategy> ReadAndPopulate(List<Strategy> strategies)
         {
-            var lines = File.ReadAllLines("Capital.csv");
+            var lines = File.ReadAllLines("files/Capital.csv");
             Read(lines, strategies);
 
             return strategies;

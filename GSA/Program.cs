@@ -1,15 +1,13 @@
-﻿using GSA.Data.Scaffolded;
-
-namespace GSA
+﻿namespace GSA
 {
     public class program
     {
         public static void Main(string[] args)
         {
-            var strategyReader = new StrategyReader();
+            var strategyReader = new utils.StrategyReader();
 
-            var strategies = strategyReader._strategies;            
-
+            var strategies = strategyReader._strategies;
+  
         }
     }
 }
