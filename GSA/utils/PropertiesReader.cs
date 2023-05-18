@@ -8,7 +8,7 @@ namespace GSA.utils
         public void ConvertProperties(List<Strategy> strategies)
         {
             var lines = Read("files/properties.csv");
-            UpdateStratName(strategies, lines);
+            AddRegion(strategies, lines);
         }
 
         private string[][] Read(string filePath)
@@ -19,7 +19,7 @@ namespace GSA.utils
                 .ToArray();
         }
 
-        private void UpdateStratName(List<Strategy> strategies, string[][] lines)
+        public void AddRegion(List<Strategy> strategies, string[][] lines)
         {
             for (int i = 0; i < lines.Length; i++)
             {

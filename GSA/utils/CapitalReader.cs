@@ -23,7 +23,7 @@ namespace GSA.utils
             AddFields(body, headers, strategies);
         }
 
-        private void AddFields(string[][] body, string[] headers, List<Strategy> strategies)
+        public void AddFields(string[][] body, string[] headers, List<Strategy> strategies)
         {
             for (int i = 0; i < body.Length; i++)
             {
