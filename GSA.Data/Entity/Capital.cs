@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace GSA.Data.Entity;
 
-public partial class Pnl
+public partial class Capital
 {
-    public int PnlId { get; set; }
+    public int CapitalId { get; set; }
 
     public int StrategyId { get; set; }
 
