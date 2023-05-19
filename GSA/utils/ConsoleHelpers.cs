@@ -1,9 +1,11 @@
-﻿namespace GSA.utils
+﻿using GSA.Data.Context;
+
+namespace GSA.utils
 {
     public class ConsoleHelpers
     {
 
-        DatabaseQuerier _databaseQuerier = new DatabaseQuerier();
+        DatabaseQuerier _databaseQuerier = new DatabaseQuerier(new StrategyContext());
 
         public void ProcessCommands()
         {
@@ -50,8 +52,15 @@
         public void ProcessCumulativePnL(string region)
         {
 
-            Console.WriteLine($"{region}");
+            var result = _databaseQuerier.QueryPnls(region);
 
+            var keys = result.Keys;
+            keys.OrderBy(x => x.Date).ToList();
+
+            foreach ( var key in keys)
+            {
+                Console.WriteLine($"date: {key.ToString("yyyy-MM-dd")} cululativePnl:{result[key]}");
+            }
         }
     }
 }
