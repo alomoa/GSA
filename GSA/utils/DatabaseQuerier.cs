@@ -1,4 +1,5 @@
 ﻿using GSA.Data.Context;
+using GSA.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -7,18 +8,24 @@ namespace GSA.utils
     public class DatabaseQuerier
     {
         DbContext _dbContext;
-        public DatabaseQuerier(DbContext dbContext) {
+        public DatabaseQuerier(DbContext dbContext)
+        {
             _dbContext = dbContext;
         }
 
         public List<Data.Entity.Strategy> QueryCapitals(string[] strategyNames)
         {
-
-
             if (strategyNames.Length == 0) throw new NullReferenceException();
 
             var strategies = GetStrategiesWithCapitals(strategyNames);
 
+            var cumulativeStrategies = cumulateStrategyCapitals(strategies);
+
+            return cumulativeStrategies;
+        }
+
+        public List<Data.Entity.Strategy> cumulateStrategyCapitals(List<Strategy> strategies)
+        {
             var cumulativeStrategies = new List<GSA.Data.Entity.Strategy>();
 
             foreach (var strategy in strategies)
@@ -45,6 +52,14 @@ namespace GSA.utils
 
             var strategies = GetStrategiesWithPnlsFromRegion(region);
 
+            var pnlDict = cumulateStrategyPnls(strategies);
+
+            return pnlDict;
+
+        }
+
+        public Dictionary<DateTime, decimal> cumulateStrategyPnls(List<Strategy> strategies)
+        {
             var pnlDict = new Dictionary<DateTime, decimal>();
 
             foreach (var strategy in strategies)
@@ -63,23 +78,33 @@ namespace GSA.utils
 
                         if (pnlDict.ContainsKey(currentDate))
                         {
-                            pnlDict[currentDate] += currentTotal;
+                            pnlDict[currentDate] = pnlDict[currentDate] + total;
                         }
                         else
                         {
-                            pnlDict[currentDate] = currentTotal;
+                            pnlDict[currentDate] = total;
                         }
                         currentDate = pnl.Date;
                         currentTotal = 0.0m;
                     }
                     currentTotal += pnl.Amount;
                 }
+                total += currentTotal;
+
+                if (pnlDict.ContainsKey(currentDate))
+                {
+                    pnlDict[currentDate] = pnlDict[currentDate] + total;
+                }
+                else
+                {
+                    pnlDict[currentDate] = total;
+                }
+
+
             }
 
             return pnlDict;
-
         }
-
 
         private List<GSA.Data.Entity.Strategy> GetStrategiesWithCapitals(string[] strategyNames)
         {
