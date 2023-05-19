@@ -12,7 +12,7 @@ namespace GSA.utils
     {
         public DatabaseQuerier() { }
 
-        public List<Data.Entity.Strategy> QueryStrategies(string[] strategyNames)
+        public List<Data.Entity.Strategy> QueryCapitals(string[] strategyNames)
         {
 
 
@@ -38,6 +38,7 @@ namespace GSA.utils
 
             return cumulativeStrategies;
         }
+
 
         private List<GSA.Data.Entity.Strategy> GetStrategies(string[] strategyNames)
         {
