@@ -1,5 +1,6 @@
 ﻿using GSA.Data.Context;
 using GSA.models;
+using GSA.utils;
 using System.Collections.Generic;
 
 namespace GSA
@@ -8,11 +9,8 @@ namespace GSA
     {
         public static void Main(string[] args)
         {
-            var strategyReader = new utils.StrategyReader();
-
-            var strategies = strategyReader._strategies;
-
-            SaveToDatabase(strategies);
+            ConsoleHelpers consoleHelpers = new ConsoleHelpers();
+            consoleHelpers.ProcessCommands();
         }
 
         private static void SaveToDatabase(List<Strategy> strategies)
