@@ -3,14 +3,16 @@
     public class ConsoleHelpers
     {
 
+        DatabaseQuerier _databaseQuerier = new DatabaseQuerier();
+
         public void ProcessCommands()
         {
-            var command = Console.ReadLine();
+            var command = Console.ReadLine().ToLower();
             var commandParts = command.Split(' ');
 
-            if (commandParts[0] == "Capital")
+            if (commandParts[0] == "capital")
             {
-                var strategies = commandParts[1].Split(" ");
+                var strategies = commandParts.Skip(1).ToArray();
 
                 ProcessCapital(strategies);
 
@@ -30,17 +32,25 @@
 
         public void ProcessCapital(string[] strategies)
         {
-            foreach (string strategy in strategies)
-            {
-                Console.WriteLine($"{strategy}");
+            var results = _databaseQuerier.QueryCapitals(strategies);
+
+            for (int i = 0; i < results[0].Capitals.Count(); i++) {
+            
+                foreach( var result in results)
+                {
+                    var capital = result.Capitals.ElementAt(i);
+
+                    Console.WriteLine($"strategy: {result.StratName}, date: {capital.Date.ToString("yyyy-MM-dd")}, capital: {capital.Amount.ToString("0")}");
+
+                }
 
             }
         }
 
         public void ProcessCumulativePnL(string region)
         {
-           
-                Console.WriteLine($"{region}");
+
+            Console.WriteLine($"{region}");
 
         }
     }
