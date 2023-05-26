@@ -17,7 +17,9 @@ namespace GSA
             }
             SaveToDatabase(result);
 
-            ConsoleHelpers consoleHelpers = new ConsoleHelpers();
+            DatabaseQuerier _databaseQuerier = new DatabaseQuerier(new StrategyContext());
+
+            ConsoleHelpers consoleHelpers = new ConsoleHelpers(_databaseQuerier);
             consoleHelpers.ProcessCommands();
         }
 
