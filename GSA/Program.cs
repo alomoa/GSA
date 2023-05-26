@@ -9,6 +9,14 @@ namespace GSA
     {
         public static void Main(string[] args)
         {
+            var strategyReader = new StrategyReader();
+            var result = strategyReader.Read();
+            foreach ( var item in result )
+            {
+                Console.WriteLine(item);
+            }
+            SaveToDatabase(result);
+
             ConsoleHelpers consoleHelpers = new ConsoleHelpers();
             consoleHelpers.ProcessCommands();
         }
