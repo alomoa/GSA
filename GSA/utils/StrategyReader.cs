@@ -6,13 +6,14 @@ namespace GSA.utils
     public class StrategyReader
     {
         public List<Strategy> _strategies;
+        public IMyFileReader _fileReader;
 
-        public StrategyReader()
+        public StrategyReader(IMyFileReader fileReader)
         {
-
+            _fileReader = fileReader;
         }
 
-        public List<Strategy> Read()
+        public List<Strategy> Execute()
         {
             _strategies = InitialiseStrategies(_strategies);
             var pnls = ReadPnls().ToDictionary(x => x.StratName);
@@ -21,28 +22,29 @@ namespace GSA.utils
             foreach(var strategy in _strategies)
             {
                 strategy.Pnl = pnls[strategy.StratName].Pnl;
-                strategy.Capital = pnls[strategy.StratName].Capital;
+                strategy.Capital = capitals[strategy.StratName].Capital;
             }
 
             return _strategies;
         }
 
-        private List<Strategy> ReadPnls()
+        public List<Strategy> ReadPnls()
         {
-            var lines = File.ReadAllLines("files/pnl.csv");
+            var lines = _fileReader.ReadAllLines("files/pnl.csv");
             var strategiesWithNames = GetStrategyNames(lines);
             return ReadData<Pnl>(lines, strategiesWithNames, (amount, date) => new Pnl() { Amount=amount, Date= date}, strategy => strategy.Pnl);
         }
 
-        private List<Strategy> ReadCapitals()
+        public List<Strategy> ReadCapitals()
         {
-            var lines = File.ReadAllLines("files/capital.csv");
+            var lines = _fileReader.ReadAllLines("files/capital.csv");
             var strategiesWithNames = GetStrategyNames(lines);
             return ReadData<Capital>(lines, strategiesWithNames, (amount, date) => new Capital() { Amount = amount, Date = date }, strategy => strategy.Capital);
 
         }
-        private List<Strategy> GetStrategyNames(string[] lines)
+        public List<Strategy> GetStrategyNames(string[] lines)
         {
+            if (lines[0].Split(",").First() != "Date") throw new Exception("Invalid headers, Date must exist at the first column");
             var headers = lines[0].Split(",").Skip(1).ToArray();
             var strategies = CreateStrategies(headers);
             return strategies;
@@ -90,14 +92,15 @@ namespace GSA.utils
             return strategies;
         }
 
-        private List<Strategy> InitialiseStrategies(List<Strategy> strategies)
+        public List<Strategy> InitialiseStrategies(List<Strategy> strategies)
         {
-            var lines = File.ReadAllLines("files/properties.csv");
+            var lines = _fileReader.ReadAllLines("files/properties.csv");
             return ParseProperties(lines);
         }
 
-        private List<Strategy> ParseProperties(string[] lines)
+        public List<Strategy> ParseProperties(string[] lines)
         {
+            if (lines[0].Split(",")[0] != "StratName" || lines[0].Split(",")[1] != "Region") throw new Exception("Invalid header names in properties.csv");
             var result = new List<Strategy>();
             var body = lines.Skip(1).ToArray();
             foreach (var row in body)

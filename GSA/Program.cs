@@ -9,8 +9,8 @@ namespace GSA
     {
         public static void Main(string[] args)
         {
-            var strategyReader = new StrategyReader();
-            var result = strategyReader.Read();
+            var strategyReader = new StrategyReader(new MyFileReader());
+            var result = strategyReader.Execute();
             foreach ( var item in result )
             {
                 Console.WriteLine(item);
