@@ -5,27 +5,32 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GSA.utils
 {
+    // TODO: Single responsiblity principle. Decouple the code! 
     public class DatabaseQuerier
     {
-        DbContext _dbContext;
-        public DatabaseQuerier(DbContext dbContext)
+        
+        private readonly StrategyContext _dbContext;
+
+        public DatabaseQuerier(StrategyContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public List<Data.Entity.Strategy> QueryCapitals(string[] strategyNames)
         {
-            if (strategyNames.Length == 0) throw new NullReferenceException();
+            if (!strategyNames.Any()) return new List<Strategy>();
 
             var strategies = GetStrategiesWithCapitals(strategyNames);
+            if (!strategies.Any()) return new List<Strategy>();
 
-            var cumulativeStrategies = cumulateStrategyCapitals(strategies);
+            var cumulativeStrategies = CumulateStrategyCapitals(strategies);
 
             return cumulativeStrategies;
         }
 
-        public List<Data.Entity.Strategy> cumulateStrategyCapitals(List<Strategy> strategies)
+        public List<CumlativeStrategyCapitals> CumulateStrategyCapitals(List<Strategy> strategies)
         {
+            // I don't like that you reused the class here
             var cumulativeStrategies = new List<GSA.Data.Entity.Strategy>();
 
             foreach (var strategy in strategies)
@@ -37,7 +42,9 @@ namespace GSA.utils
                 foreach (var capital in strategy.Capitals)
                 {
                     total = capital.Amount + total;
-                    var cumulativeCapital = new GSA.Data.Entity.Capital() { Date = capital.Date, Amount = total };
+
+                    // I don't like that you reused the class here
+                    var cumulativeCapital = new CumlativeCapital() { Date = capital.Date, Amount = total };
                     cumulativeStrategy.Capitals.Add(cumulativeCapital);
                 }
                 cumulativeStrategies.Add(cumulativeStrategy);
@@ -108,34 +115,31 @@ namespace GSA.utils
 
         private List<GSA.Data.Entity.Strategy> GetStrategiesWithCapitals(string[] strategyNames)
         {
-            var strategies = new List<GSA.Data.Entity.Strategy>();
-
-            foreach (var stratName in strategyNames)
+            // or can use _dbContext. Pick one way, don't mix
+            using (var db = new StrategyContext())
             {
-                using (var db = new StrategyContext())
-                {
-                    var strategy = db.Strategies.Where(x => x.StratName == stratName)
-                        .Include(x => x.Capitals)
-                        .First();
-                    strategy.Capitals.OrderBy(x => x.Date).ToList();
-                    strategies.Add(strategy);
-                }
-            }
+                var strategies = db.Strategies.Where(x => strategyNames.Contains(x.StratName))
+                    .Include(x => x.Capitals)
+                    .ToList();
 
-            return strategies;
+                foreach (var strategy in strategies)
+                {
+                    strategy.Capitals = strategy.Capitals.OrderBy(x => x.Date).ToList();
+                }
+                
+                return strategies;
+            }
+    
         }
 
         private List<GSA.Data.Entity.Strategy> GetStrategiesWithPnlsFromRegion(string region)
         {
             var strategies = new List<GSA.Data.Entity.Strategy>();
 
-            using (var db = new StrategyContext())
-            {
-                strategies = db.Strategies.Where(x => x.Region == region)
-                    .Include(x => x.Pnls)
-                    .ToList();
-            }
-
+            strategies = _dbContext.Strategies.Where(x => x.Region == region)
+                .Include(x => x.Pnls)
+                .ToList();
+            
             return strategies;
         }
     }

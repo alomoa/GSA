@@ -12,12 +12,14 @@ namespace GSA.utils
             _databaseQuerier = databaseQuerier;
         }
 
+
         public void ProcessCommands()
         {
             var command = Console.ReadLine().ToLower();
             ProcessCommands(command);
         }
 
+        // I wouldn't test this
         public void ProcessCommands(string command)
         {
             var commandParts = command.Split(' ');
@@ -43,6 +45,7 @@ namespace GSA.utils
 
         public void ProcessCapital(string[] strategies)
         {
+            
             var results = _databaseQuerier.QueryCapitals(strategies);
 
             for (int i = 0; i < results[0].Capitals.Count(); i++)
@@ -53,9 +56,7 @@ namespace GSA.utils
                     var capital = result.Capitals.ElementAt(i);
 
                     Console.WriteLine($"strategy: {result.StratName}, date: {capital.Date.ToString("yyyy-MM-dd")}, capital: {capital.Amount.ToString("0")}");
-
                 }
-
             }
         }
 

@@ -9,6 +9,7 @@ namespace GSA
     {
         public static void Main(string[] args)
         {
+            // Move to new class. Add a command in console helpers for load to db
             var strategyReader = new StrategyReader(new MyFileReader());
             var result = strategyReader.Execute();
             foreach ( var item in result )

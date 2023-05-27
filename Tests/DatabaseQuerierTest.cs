@@ -33,7 +33,7 @@ namespace Tests
             List<Strategy> strategies = new List<Strategy>() { strategy };
 
             //Act
-            var result = databaseQuerier.cumulateStrategyCapitals(strategies);
+            var result = databaseQuerier.CumulateStrategyCapitals(strategies);
 
             //Assert
             Assert.That(result[0].Capitals.ElementAt(0).Amount, Is.EqualTo(1000));
