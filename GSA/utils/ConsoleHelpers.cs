@@ -11,9 +11,15 @@ namespace GSA.utils
         {
             _databaseQuerier = databaseQuerier;
         }
+
         public void ProcessCommands()
         {
             var command = Console.ReadLine().ToLower();
+            ProcessCommands(command);
+        }
+
+        public void ProcessCommands(string command)
+        {
             var commandParts = command.Split(' ');
 
             if (commandParts[0] == "capital")
@@ -33,7 +39,6 @@ namespace GSA.utils
             {
                 Console.WriteLine("Invalid command.");
             }
-
         }
 
         public void ProcessCapital(string[] strategies)
